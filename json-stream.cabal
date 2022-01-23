@@ -41,7 +41,7 @@ library
   build-depends:         base >=4.7 && <5
                        , bytestring
                        , text
-                       , aeson >= 0.7
+                       , aeson >= 2.0
                        , vector
                        , unordered-containers
                        , scientific
