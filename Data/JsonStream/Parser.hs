@@ -89,11 +89,11 @@ import           Data.Semigroup                 (Semigroup(..))
 
 import           Control.Applicative
 import qualified Data.Aeson                  as AE
+import qualified Data.Aeson.KeyMap           as KM
 import qualified Data.ByteString.Char8       as BS
 import qualified Data.ByteString.Lazy.Char8  as BL
 import qualified Data.ByteString.Lazy.Internal as BL
 import           Data.Char                   (isSpace)
-import qualified Data.HashMap.Strict         as HMap
 import           Data.Scientific             (Scientific, isInteger,
                                               toBoundedInteger, toRealFloat)
 import qualified Data.Text                   as T
@@ -384,7 +384,7 @@ aeValue = Parser $ moreData value'
               Right t -> Yield (AE.String t) (Done "" ntok)
               Left e -> Failed (show e)
         ArrayBegin -> AE.Array . Vec.fromList <$> callParse (many (arrayOf aeValue)) tok
-        ObjectBegin -> AE.Object . HMap.fromList <$> callParse (manyReverse (objectItems aeValue)) tok
+        ObjectBegin -> AE.Object . KM.fromList <$> callParse (manyReverse (objectItems aeValue)) tok
         _ -> Failed ("aeValue - unexpected token: " ++ show el)
 
 -- | Optimized function for aeson objects - evades reversing the objects
